@@ -23,6 +23,9 @@ namespace EntityLayer.Concrete
 
         public Category Category { get; set; }
 
+        public int BloggerID { get; set; }
+
+        public Blogger Blogger { get; set; }
         public List<Comment> Comments { get; set; }
     }
 }

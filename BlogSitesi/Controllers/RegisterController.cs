@@ -1,6 +1,8 @@
 ﻿using BusinessLayer.Concrete;
+using BusinessLayer.Validation;
 using DataAccessLayer.EF;
 using EntityLayer.Concrete;
+using FluentValidation.Results;
 using Microsoft.AspNetCore.Mvc;
 
 namespace BlogSitesi.Controllers
@@ -17,10 +19,24 @@ namespace BlogSitesi.Controllers
         [HttpPost]
         public IActionResult Index(Blogger b)
         {
-            b.BloggerStatus = true;
-            b.BloggerAbout = "Deneme Test";
-            bm.BloggerAdd(b);
-            return RedirectToAction("Index", "Blog");
+            BloggerValidator bv = new BloggerValidator();
+            ValidationResult result = bv.Validate(b);
+            if (result.IsValid)
+            {
+                b.BloggerStatus = true;
+                b.BloggerAbout = "Deneme Test";
+                bm.BloggerAdd(b);
+                return RedirectToAction("Index", "Blog");
+
+            }
+            else
+            {
+                foreach (var item in result.Errors)
+                {
+                    ModelState.AddModelError(item.PropertyName, item.ErrorMessage);
+                }
+            }
+            return View();
         }
     }
 }

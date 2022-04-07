@@ -17,6 +17,6 @@ namespace EntityLayer.Concrete
         public string BloggerMail { get; set; }
         public string BloggerPassword { get; set; }
         public bool BloggerStatus { get; set; }
-
+        public List<Blog> Blogs { get; set; }
     }
 }
