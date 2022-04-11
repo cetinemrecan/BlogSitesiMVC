@@ -26,5 +26,17 @@ namespace BlogSitesi.Controllers
         {
             return View();
         }
+        [AllowAnonymous]
+
+        public PartialViewResult BloggerNavbarPartial()
+        {
+            return PartialView();
+        }
+        [AllowAnonymous]
+
+        public PartialViewResult BloggerFooterPartial()
+        {
+            return PartialView();
+        }
     }
 }
