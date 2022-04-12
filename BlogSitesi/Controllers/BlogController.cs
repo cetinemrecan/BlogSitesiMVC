@@ -21,7 +21,11 @@ namespace BlogSitesi.Controllers
             var values=bm.GetBlogByID(id);
             return View(values);
         }
-        
+        public IActionResult BlogListByBlogger()
+        {
+          var values= bm.GetBlogListByBlogger(1);
+            return View(values);
+        }
 
     }
 }
