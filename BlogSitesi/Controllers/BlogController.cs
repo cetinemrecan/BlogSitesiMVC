@@ -30,7 +30,7 @@ namespace BlogSitesi.Controllers
         }
         public IActionResult BlogListByBlogger()
         {
-          var values= bm.GetBlogListByBlogger(1);
+          var values= bm.GetListWithCategoryByBloggerBm(1);
             return View(values);
         }
         [HttpGet]
@@ -68,6 +68,13 @@ namespace BlogSitesi.Controllers
             }
             return View();
             
+        }
+        public IActionResult DeleteBlog(int id)
+        {
+            var blogvalue=bm.TGetById(id);
+            bm.TDelete(blogvalue);
+            return RedirectToAction("BlogListByBlogger");
+
         }
     }
 }

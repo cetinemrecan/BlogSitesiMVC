@@ -23,10 +23,19 @@
         <tr>
             <th>@item.BlogID</th>
              <th>@item.BlogTitle</th>
-              <th>@item.BlogCreateDate</th>
-               <th>@item.CategoryID</th>
-             <th>@item.BlogStatus</th>
-             <th><a href="#" class="btn btn-danger">Sil</a></th>
+              <th>@(((DateTime)item.BlogCreateDate).ToString("dd-MMM-yyyy"))</th>
+               <th>@item.Category.CategoryName</th>
+             <th>
+                 @if (item.BlogStatus)// == true da yazılabilir
+                     {
+                     <span class="badge badge-success">Aktif</span>
+                    }
+                    else
+                     {
+                    <span class="badge badge-secondary">Pasif</span>
+                    }
+             </th>
+             <th><a href="/Blog/DeleteBlog/@item.BlogID" class="btn btn-danger">Sil</a></th>
               <th><a href="#" class="btn btn-warning">Düzenle</a></th>
         </tr>
     }

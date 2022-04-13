@@ -21,5 +21,16 @@ namespace DataAccessLayer.EF
             }
              
         }
+
+        public List<Blog> GetListWithCategoryByBlogger(int id)
+        {
+            using (var c = new Context())
+            {
+                return c.Blogs.Include(x => x.Category).Where(x=>x.BloggerID==id).ToList();
+            }
+
+        }
+
+
     }
 }
