@@ -25,7 +25,7 @@ namespace BlogSitesi.Controllers
             {
                 b.BloggerStatus = true;
                 b.BloggerAbout = "Deneme Test";
-                bm.BloggerAdd(b);
+                bm.TAdd(b);
                 return RedirectToAction("Index", "Blog");
 
             }

@@ -18,9 +18,34 @@ namespace BusinessLayer.Concrete
             _bloggerDal = bloggerDal;
         }
 
-        public void BloggerAdd(Blogger blogger)
+        public List<Blogger> GetBloggerById(int id)
         {
-            _bloggerDal.Insert(blogger);
+           return  _bloggerDal.GetListAll(x=>x.BloggerID == id);    
+        }
+
+        public List<Blogger> GetList()
+        {
+            throw new NotImplementedException();
+        }
+
+        public void TAdd(Blogger t)
+        {
+            _bloggerDal.Insert(t);
+        }
+
+        public void TDelete(Blogger t)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Blogger TGetById(int id)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void TUpdate(Blogger t)
+        {
+            throw new NotImplementedException();
         }
     }
 }

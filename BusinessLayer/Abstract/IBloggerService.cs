@@ -7,8 +7,9 @@ using System.Threading.Tasks;
 
 namespace BusinessLayer.Abstract
 {
-    public interface IBloggerService
+    public interface IBloggerService:IGenericService<Blogger>
     {
-        void BloggerAdd(Blogger  blogger);
+        List<Blogger> GetBloggerById(int id);
+
     }
 }
