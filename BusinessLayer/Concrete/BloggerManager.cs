@@ -40,12 +40,12 @@ namespace BusinessLayer.Concrete
 
         public Blogger TGetById(int id)
         {
-            throw new NotImplementedException();
+          return  _bloggerDal.GetById(id);
         }
 
         public void TUpdate(Blogger t)
         {
-            throw new NotImplementedException();
+           _bloggerDal.Update(t);
         }
     }
 }

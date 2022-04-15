@@ -19,5 +19,7 @@ namespace BusinessLayer.Validation
             RuleFor(x => x.BloggerName).MaximumLength(50).WithMessage("Veri girişi en fazla 50 karakter olmalıdır");
             
         }
+
+        
     }
 }
