@@ -9,7 +9,11 @@ using System.Threading.Tasks;
 
 namespace DataAccessLayer.EF
 {
-    public class EfMessageRepository:GenericRepository<Message> ,IMessageDal
+    public class EfMessageRepository : GenericRepository<Message>, IMessageDal
     {
+        public List<Message2> GetListWithMessageByBlogger(int id)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

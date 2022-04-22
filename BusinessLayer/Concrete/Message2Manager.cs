@@ -20,7 +20,7 @@ namespace BusinessLayer.Concrete
 
         public List<Message2> GetInboxListByBlogger(int id)
         {
-            return _messageDal.GetListAll(x => x.ReceiverID == id);
+           return _messageDal.GetListWithMessageByBlogger(id);
         }
 
         public List<Message2> GetList()
