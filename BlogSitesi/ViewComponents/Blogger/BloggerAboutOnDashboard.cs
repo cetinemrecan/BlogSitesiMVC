@@ -1,6 +1,8 @@
 ﻿using BusinessLayer.Concrete;
+using DataAccessLayer.Concrete;
 using DataAccessLayer.EF;
 using Microsoft.AspNetCore.Mvc;
+using System.Linq;
 
 namespace BlogSitesi.ViewComponents.Blogger
 {
@@ -10,7 +12,10 @@ namespace BlogSitesi.ViewComponents.Blogger
 
         public IViewComponentResult Invoke()
         {
-          var values = bloggerManager.GetBloggerById(1);
+            var usermail = User.Identity.Name;
+            Context c = new Context();
+            var bloggerID = c.Bloggers.Where(x => x.BloggerMail == usermail).Select(y => y.BloggerID).FirstOrDefault();
+            var values = bloggerManager.GetBloggerById(bloggerID);
             return View(values);
         }
     }

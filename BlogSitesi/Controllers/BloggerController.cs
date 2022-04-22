@@ -1,6 +1,7 @@
 ﻿using BlogSitesi.Models;
 using BusinessLayer.Concrete;
 using BusinessLayer.Validation;
+using DataAccessLayer.Concrete;
 using DataAccessLayer.EF;
 using EntityLayer.Concrete;
 using FluentValidation.Results;
@@ -8,6 +9,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.IO;
+using System.Linq;
 
 namespace BlogSitesi.Controllers
 {
@@ -17,9 +19,15 @@ namespace BlogSitesi.Controllers
     {
 
         BloggerManager bm = new BloggerManager(new EfBloggerRepository());
+        [Authorize]
 
         public IActionResult Index()
         {
+            var usermail = User.Identity.Name;
+            ViewBag.v=usermail;
+            Context c=new Context();
+            var bloggerName = c.Bloggers.Where(x => x.BloggerMail == usermail).Select(y => y.BloggerName).FirstOrDefault();
+            ViewBag.v2=bloggerName;
             return View();
         }
         public IActionResult BloggerProfile()
@@ -48,14 +56,20 @@ namespace BlogSitesi.Controllers
         {
             return PartialView();
         }
-        [AllowAnonymous]
+      
         [HttpGet]
         public IActionResult BloggerEditProfile()
         {
-            var bloggervalues = bm.TGetById(1);
+            Context c = new Context();
+
+            var usermail = User.Identity.Name;
+         
+            var bloggerID = c.Bloggers.Where(x => x.BloggerMail == usermail).Select(y => y.BloggerID).FirstOrDefault();
+            
+            var bloggervalues = bm.TGetById(bloggerID);
             return View(bloggervalues);
         }
-        [AllowAnonymous]
+       
         [HttpPost]
         public IActionResult BloggerEditProfile(Blogger c)
         {
@@ -76,7 +90,7 @@ namespace BlogSitesi.Controllers
             }
           return View();
         }
-        [AllowAnonymous]
+       
         [HttpGet]
         public IActionResult BloggerAdd()
         {
