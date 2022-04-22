@@ -18,5 +18,8 @@ namespace EntityLayer.Concrete
         public string BloggerPassword { get; set; }
         public bool BloggerStatus { get; set; }
         public List<Blog> Blogs { get; set; }
+
+        public virtual ICollection<Message2> BloggerSender { get; set; }
+        public virtual ICollection<Message2> BloggerReceiver { get; set; }
     }
 }

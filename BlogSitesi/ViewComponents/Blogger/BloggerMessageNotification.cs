@@ -6,12 +6,11 @@ namespace BlogSitesi.ViewComponents.Blogger
 {
     public class BloggerMessageNotification:ViewComponent
     {
-        MessageManager mm = new MessageManager(new EfMessageRepository());
+        Message2Manager mm = new Message2Manager(new EfMessage2Repository());
         public IViewComponentResult Invoke()
         {
-            string p;
-            p = "emre1@gmail.com";
-            var values = mm.GetInboxListByBlogger(p);
+            int id = 2;
+            var values = mm.GetInboxListByBlogger(id);
             return View(values);
 
         }
