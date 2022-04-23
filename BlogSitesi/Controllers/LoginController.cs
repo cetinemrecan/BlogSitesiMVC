@@ -14,6 +14,7 @@ namespace BlogSitesi.Controllers
     public class LoginController : Controller
     {
         [AllowAnonymous]
+       
         public IActionResult Index()
         {
             return View();
