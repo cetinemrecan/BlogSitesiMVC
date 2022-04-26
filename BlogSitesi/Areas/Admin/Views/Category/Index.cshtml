@@ -6,6 +6,7 @@
     Layout = "~/Views/Shared/AdminLayout.cshtml";
 }
 
+
 <h1>Kategori Listesi</h1>
 <br />
 <table class="table table-bordered">
@@ -21,8 +22,11 @@
     <tr>
         <th>@item.CategoryID</th>
          <td>@item.CategoryName</td>
-          <td><a href ="#" class="btn btn-danger">Pasif Yap</a></td>
+          <td><a href ="/Admin/Category/CategoryDelete/@item.CategoryID/" id="DeleteBtn" 
+           onclick="return confirm('Silmek istediginize emin misiniz');" class="btn btn-danger">Pasif Yap</a></td>
+
              <td><a href ="#" class="btn btn-warning">Aktif Yap</a></td>
+
                 <td><a href ="#" class="btn btn-success">Düzenle</a></td>
            
     </tr>
@@ -34,3 +38,4 @@
 <br />
 <br />
 @Html.PagedListPager((IPagedList)Model,page=>Url.Action("Index", new {page}))
+
