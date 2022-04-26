@@ -2,7 +2,7 @@
 
 namespace BlogSitesi.Areas.Admin.Controllers
 {
-    public class HomeController : Controller
+    public class HomeController1 : Controller
     {
         public IActionResult Index()
         {
