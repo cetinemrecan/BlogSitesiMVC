@@ -7,10 +7,46 @@
 <h1>Yazar Ajax İşlemleri</h1>
 <br />
 <button type="button" id="btngetlist" class="btn btn-outline-primary">Yazar Listesi</button>
+<button type="button" id="btngetbyid" class="btn btn-outline-success">Yazar Getir</button>
+<button type="button" id="btnaddblogger" class="btn btn-outline-info">Yazar Ekle</button>
+<button type="button" id="btnaddblogger" class="btn btn-outline-danger">Yazar Sil</button>
+<button type="button" id="btnupdateblogger" class="btn btn-outline-warning">Yazar Güncelle</button>
+
+
+
+
 <br /><br />
 <div id="bloggerlist">
     Buraya yazarlar gelecek
 </div>
+<br />
+<div id="bloggerget">
+    Buraya 1 yazar gelecek
+</div>
+<br />
+<div>
+    <input type="text" id="bloggerid" placeholder="Yazar ID Değerini Girin"  class="form-control"/><br />
+</div>
+
+
+<div>
+    <input type="text" class="form-control" id="txtbloggerid" placeholder="Yazar ID " />
+    <br />
+
+    <input type="text" class="form-control" id="txtbloggername" placeholder="Yazar Adı " />
+    <br />
+
+</div>
+
+<div>
+    <input type="text" class="form-control" id="txtid" placeholder="Silinecek Yazar ID " />
+    
+</div>
+<br />
+    <input type="text"  id="txtid1" class="form-control" placeholder="Güncellenecek Yazar ID " /><br />
+        <input type="text"  id="txtbloggername1" class="form-control" placeholder="Güncellenecek Yazar İsmi " />
+
+
 
 @section scripts {
     
@@ -25,10 +61,82 @@
                 type: "Get",
                 url: "/Admin/Blogger/BloggerList/",
                 success: function(func) {
-                    console.log(func);
+                    let w=jQuery.parseJSON(func);
+                    console.log(w);
+                    let tablehtml="<table class=table table-bordered> <tr><th> Yazar ID </th> <th>Yazar Adı</th> </tr>";
+                    $.each(w,(index,value)=>{
+                        tablehtml+=`<tr><td>${value.ID}</td> <td>${value.Name}</td> </tr>`
+                    });
+                     tablehtml+="</table>";
+                     $("#bloggerlist").html(tablehtml);
                 }
             });
         });
 
+        $("btngetbyid").click(x=>{
+            let id=$("#bloggerid").val();
+            $.ajax({
+                contentType: "application/json",
+                dataType: "json",
+                type: "get",
+                url: "/Admin/Blogger/GetBloggerByID/",
+                data: {bloggerid:id},
+                success: function(func) {
+                    let w=jQuery.parseJSON(func)
+                                console.log(w);
+                                let getvalue=`<table class=table table-bordered> <tr> <th>Yazar ID</th> <th>Yazar Adı</th></tr>
+                                <tr><td>${w.ID}</td><td>${w.Name}</td></tr></table>`;
+                                $("#bloggerget").html(getvalue);
+                               
+
+                }
+            });
+        });
+
+        $("#btnaddblogger").click(function(){
+            let blogger={
+                ID:$("#txtbloggerid").val(),
+                Name:$("txtbloggername").val()
+            };
+
+            $.ajax({
+                type: "post",
+                url: "/Admin/Blogger/AddBlogger/",
+                data: blogger,
+                success: function (func) {
+                    let result= jQuery.parseJSON(func);
+                    alert("Yazar Ekleme İşlemi Başarılı Bir Şekilde Gerçekleşti");
+                }
+            });
+        });
+   
+        //$("#btndeleteblogger").click(x=> {
+        //    let id=$("txtid").val(),
+        //    $.ajax({
+        //        url: "/Admin/Blogger/DeleteBlogger/" + id,
+        //        type: "post",
+        //        dataType: "json"
+        //        success: function(func) {
+        //            let result=jQuery.parseJSON(func);
+        //            alert("Yazar Silme İşlemi Başarılı");
+        //        }
+        //    });
+        //});
+
+        $("#btnupdateblogger").click(function () {
+            let blogger={
+                ID: $("#txtid1").val(),
+                Name: $("#txtbloggername1").val()
+            };
+
+            $.ajax({
+                type : "post",
+                url : "/Admin/Blogger/UpdateBlogger",
+                data : blogger,
+                success : function (funk) {
+                    alert ("Güncelleme Yapıldı");
+                }
+            });
+        });
     </script>
 }
