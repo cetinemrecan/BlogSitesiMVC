@@ -30,7 +30,12 @@ namespace BlogSitesi
         {
             services.AddDbContext<Context>();
 
-            services.AddIdentity<AppUser, AppRole>().AddEntityFrameworkStores<Context>();
+            services.AddIdentity<AppUser, AppRole>(x=> 
+            {
+                x.Password.RequireUppercase = false;
+                x.Password.RequireNonAlphanumeric = false;
+            })
+                .AddEntityFrameworkStores<Context>();
 
             services.AddControllersWithViews();
 
