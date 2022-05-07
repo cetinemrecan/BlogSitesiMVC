@@ -1,8 +1,11 @@
 ﻿using BusinessLayer.Concrete;
 using DataAccessLayer.Concrete;
 using DataAccessLayer.EF;
+using EntityLayer.Concrete;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using System.Linq;
+using System.Threading.Tasks;
 
 namespace BlogSitesi.ViewComponents.Blogger
 {
@@ -10,10 +13,15 @@ namespace BlogSitesi.ViewComponents.Blogger
     {
         BloggerManager bloggerManager = new BloggerManager(new EfBloggerRepository());
 
-        public IViewComponentResult Invoke()
+        Context c = new Context();
+
+
+        public  IViewComponentResult Invoke()
         {
-            var usermail = User.Identity.Name;
-            Context c = new Context();
+           // var user=await _userManager.FindByNameAsync(User.Identity.Name);
+            var username = User.Identity.Name;
+            ViewBag.v=username;
+            var usermail=c.Users.Where(x=> x.UserName == username).Select(y=>y.Email).FirstOrDefault();
             var bloggerID = c.Bloggers.Where(x => x.BloggerMail == usermail).Select(y => y.BloggerID).FirstOrDefault();
             var values = bloggerManager.GetBloggerById(bloggerID);
             return View(values);
