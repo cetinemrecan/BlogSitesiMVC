@@ -46,44 +46,12 @@ namespace BlogSitesi.Controllers
             }
             return View();
         }
+        public async Task<IActionResult> LogOut()
+        {
+            await _signInManager.SignOutAsync();
+            return RedirectToAction("Index", "Login");
 
-
-
-
-
-        //[HttpPost]
-        //public async Task< IActionResult> Index(Blogger p)
-        //{
-        //  Context c=new Context();
-        //    var datavalue = c.Bloggers.FirstOrDefault(x => x.BloggerMail == p.BloggerMail && x.BloggerPassword == p.BloggerPassword);
-        //    if (datavalue != null)
-        //    {
-        //        var claims = new List<Claim>() //claim=> talep
-        //        {
-        //            new Claim(ClaimTypes.Name, p.BloggerMail)
-        //        };
-        //        var useridentity = new ClaimsIdentity(claims, "a");
-        //        ClaimsPrincipal principal = new ClaimsPrincipal(useridentity);
-        //        await HttpContext.SignInAsync(principal);
-        //        return RedirectToAction("Index", "Dashboard");
-        //    }
-        //    else
-        //    {
-        //        return View();
-        //    }
-            
-        //}
+        }
     }
 }
 
-//Context c = new Context();
-//var datavalue = c.Bloggers.FirstOrDefault(x => x.BloggerMail == p.BloggerMail && x.BloggerPassword == p.BloggerPassword);
-//if (datavalue != null)
-//{
-//    HttpContext.Session.SetString("username", p.BloggerMail);
-//    return RedirectToAction("Index", "Blogger");
-//}
-//else
-//{
-//    return View();
-//}

@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.AspNetCore.Mvc.Authorization;
 using Microsoft.Extensions.Configuration;
@@ -30,7 +31,7 @@ namespace BlogSitesi
         {
             services.AddDbContext<Context>();
 
-            services.AddIdentity<AppUser, AppRole>(x=> 
+            services.AddIdentity<AppUser, AppRole>(x =>
             {
                 x.Password.RequireUppercase = false;
                 x.Password.RequireNonAlphanumeric = false;
@@ -43,7 +44,7 @@ namespace BlogSitesi
 
             services.AddMvc(config =>
             {
-                var policy =new AuthorizationPolicyBuilder()
+                var policy = new AuthorizationPolicyBuilder()
                 .RequireAuthenticatedUser()
                 .Build();
                 config.Filters.Add(new AuthorizeFilter(policy));
@@ -57,7 +58,17 @@ namespace BlogSitesi
                     x.LoginPath = "/Login/Index";
                 }
                 );
+            services.ConfigureApplicationCookie(opts =>
+            {
+                //Cookie settings
+                opts.Cookie.HttpOnly = true;
+                opts.ExpireTimeSpan = TimeSpan.FromMinutes(100);
+                opts.AccessDeniedPath = new PathString("/Login/AccessDenied/");
+                opts.LoginPath = "/Login/Index/";
+                opts.SlidingExpiration = true;
+            });
         }
+
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
@@ -104,3 +115,4 @@ namespace BlogSitesi
         }
     }
 }
+
