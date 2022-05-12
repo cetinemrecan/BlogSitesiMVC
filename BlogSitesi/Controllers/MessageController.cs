@@ -1,7 +1,9 @@
 ﻿using BusinessLayer.Concrete;
+using DataAccessLayer.Concrete;
 using DataAccessLayer.EF;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using System.Linq;
 
 namespace BlogSitesi.Controllers
 {
@@ -10,11 +12,14 @@ namespace BlogSitesi.Controllers
     {
 
         Message2Manager mm = new Message2Manager(new EfMessage2Repository());
-
+        Context c = new Context();
         public IActionResult Inbox()
         {
-            int id = 2;
-            var values = mm.GetInboxListByBlogger(id);
+            
+            var username = User.Identity.Name;
+            var usermail = c.Users.Where(x => x.UserName == username).Select(y => y.Email).FirstOrDefault();
+            var bloggerID = c.Bloggers.Where(x => x.BloggerMail == usermail).Select(y => y.BloggerID).FirstOrDefault();
+            var values = mm.GetInboxListByBlogger(bloggerID);
             return View(values);
         }
         [HttpGet]

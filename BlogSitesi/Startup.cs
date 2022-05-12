@@ -63,7 +63,7 @@ namespace BlogSitesi
                 //Cookie settings
                 opts.Cookie.HttpOnly = true;
                 opts.ExpireTimeSpan = TimeSpan.FromMinutes(100);
-                opts.AccessDeniedPath = new PathString("/Login/AccessDenied/");
+               // opts.AccessDeniedPath = new PathString("/Login/AccessDenied/");
                 opts.LoginPath = "/Login/Index/";
                 opts.SlidingExpiration = true;
             });

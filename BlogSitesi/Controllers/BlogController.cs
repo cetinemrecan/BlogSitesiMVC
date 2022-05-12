@@ -38,10 +38,10 @@ namespace BlogSitesi.Controllers
         public IActionResult BlogListByBlogger()
         {
             
-            var usermail = User.Identity.Name;
-            var bloggerID=c.Bloggers.Where(x=>x.BloggerMail==usermail).Select(y=>y.BloggerID).FirstOrDefault();
+            var username = User.Identity.Name;
+            var usermail = c.Users.Where(x => x.UserName == username).Select(y => y.Email).FirstOrDefault();
+            var bloggerID = c.Bloggers.Where(x => x.BloggerMail == usermail).Select(y => y.BloggerID).FirstOrDefault();
             var values=bm.GetListWithCategoryByBloggerBm(bloggerID);
-          
             return View(values);
         }
         [HttpGet]
@@ -59,10 +59,10 @@ namespace BlogSitesi.Controllers
         public IActionResult BlogAdd(Blog p)
         {
 
-           
-            var usermail = User.Identity.Name;
-            var bloggerID = c.Bloggers.Where(x => x.BloggerMail == usermail).Select(y => y.BloggerID).FirstOrDefault();
 
+            var username = User.Identity.Name;
+            var usermail = c.Users.Where(x => x.UserName == username).Select(y => y.Email).FirstOrDefault();
+            var bloggerID = c.Bloggers.Where(x => x.BloggerMail == usermail).Select(y => y.BloggerID).FirstOrDefault();
 
             BlogValidator blv = new BlogValidator();
             ValidationResult result = blv.Validate(p);
@@ -108,7 +108,9 @@ namespace BlogSitesi.Controllers
         [HttpPost]
         public IActionResult EditBlog(Blog p)
         {
-            var usermail = User.Identity.Name;
+
+            var username = User.Identity.Name;
+            var usermail = c.Users.Where(x => x.UserName == username).Select(y => y.Email).FirstOrDefault();
             var bloggerID = c.Bloggers.Where(x => x.BloggerMail == usermail).Select(y => y.BloggerID).FirstOrDefault();
 
             p.BloggerID=bloggerID;
