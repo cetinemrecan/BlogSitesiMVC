@@ -13,7 +13,15 @@ namespace DataAccessLayer.EF
 {
     public class EfMessage2Repository: GenericRepository<Message2>, IMessage2Dal
     {
-        public List<Message2> GetListWithMessageByBlogger(int id)
+        public List<Message2> GetSendBoxWithMessageByBlogger(int id)
+        {
+            using (var c=new Context())
+            {
+                return c.Message2s.Include(x=>x.ReceiverUser).Where(y=>y.SenderID == id).ToList();
+            }
+        }
+
+        public List<Message2> GetInboxWithMessageByBlogger(int id)
         {
             using (var c = new Context())
             {
@@ -21,5 +29,7 @@ namespace DataAccessLayer.EF
             }
 
         }
+
+     
     }
 }
