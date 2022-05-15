@@ -7,10 +7,10 @@ namespace BlogSitesi.Areas.Admin.Controllers
     [Area("Admin")]
     public class AdminBlogController : Controller
     {
-        BlogManager blogManager = new BlogManager(new EfBlogRepository());
+        BlogManager blogManager1 = new BlogManager(new EfBlogRepository());
         public IActionResult Index()
         {
-            var values = blogManager.GetBlogListWithCategory();
+            var values = blogManager1.GetBlogListWithCategory();
 
             return View(values);
         }

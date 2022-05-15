@@ -8,11 +8,11 @@ namespace BlogSitesi.Areas.Admin.Controllers
     
     public class AdminCommentController : Controller
     {
-        CommentManager commentManager = new CommentManager(new EfCommentRepository());
+        CommentManager _commentManager = new CommentManager(new EfCommentRepository());
 
         public IActionResult Index()
         {
-            var values = commentManager.GetCommentwithBlog();
+            var values = _commentManager.GetCommentwithBlog();
             return View();
         }
     }
