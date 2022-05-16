@@ -1,7 +1,9 @@
-﻿using BlogSitesi.Models;
+﻿using BlogSitesi.Areas.Admin.Models;
+using BlogSitesi.Models;
 using EntityLayer.Concrete;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -11,10 +13,12 @@ namespace BlogSitesi.Areas.Admin.Controllers
     public class AdminRolController : Controller
     {
         private readonly RoleManager<AppRole> _roleManager;
+        private readonly UserManager<AppUser> _userManager;
 
-        public AdminRolController(RoleManager<AppRole> roleManager)
+        public AdminRolController(RoleManager<AppRole> roleManager, UserManager<AppUser> userManager)
         {
             _roleManager = roleManager;
+            _userManager = userManager;
         }
 
         public IActionResult Index()
@@ -82,6 +86,31 @@ namespace BlogSitesi.Areas.Admin.Controllers
                 return RedirectToAction("Index");
             }
             return View();
+        }
+        public IActionResult UserRoleList()
+        {
+            var values = _userManager.Users.ToList();
+            return View(values);
+        }
+        [HttpGet]
+        public async Task<IActionResult> AssingRole(int id)
+        {
+            var user =_userManager.Users.FirstOrDefault(x=>x.Id == id);
+            var roles = _roleManager.Roles.ToList();
+
+            TempData["Userid"] = user.Id;
+
+            var userRoles = await _userManager.GetRolesAsync(user);
+            List<RoleAssingViewModel> model= new List<RoleAssingViewModel>();
+            foreach (var item in roles)
+            {
+                RoleAssingViewModel m = new RoleAssingViewModel();  
+                m.RoleID = item.Id;
+                m.Name = item.Name;
+                m.Exists = userRoles.Contains(item.Name);
+                model.Add(m);
+            }
+            return View(model);
         }
     }
   
